@@ -1,6 +1,6 @@
 import qbittorrentapi
-import os
 
+## This is just the begining ##
 qbt_client = qbittorrentapi.Client(host='localhost', port=8080)
 
 try:
