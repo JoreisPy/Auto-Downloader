@@ -1,2 +1,2 @@
 # Auto-Downloader
-This project aims to create a script able to search for a torrent, download it and send it to the proper folder
+This project aims to facilitate the download process of Series, movies and Anime. In the end moving them to the right folder
