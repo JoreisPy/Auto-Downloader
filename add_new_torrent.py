@@ -1,15 +1,6 @@
 import qbittorrentapi
 import os
-
-current_dir = os.getcwd()
-downloads_folder = "/home/joreis/Downloads/"
-anime_folder = "/home/joreis/Media/Anime"
-series_folder = "/home/joreis/Media/Series"
-movies_folder = "/home/joreis/Media/Movies"
-
-qbt_client = qbittorrentapi.Client(host='localhost', port=8080)
-
-downloads_folder = "/home/joreis/Downloads/"
+from qbt_config import qbt_client, downloads_folder
 
 def add_new_torrent(torrent_magnet = None, torrent_category= None):
     
