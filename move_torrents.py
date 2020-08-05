@@ -69,12 +69,7 @@ def move_torrents():
 
     for files in movies_list:
         os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
-<<<<<<< HEAD
 
     
       
-=======
-    
-  
->>>>>>> ab702b2fba0509b2e2bd48032322ffc5363b6b3b
 move_torrents()
