@@ -1,7 +1,6 @@
 import qbittorrentapi
 import PTN
 from qbt_config import qbt_client, downloads_folder, movies_folder, series_folder, anime_folder, doc_folder
-#from tvdb_client import ApiV2Client
 import os
 
 current_dir = os.getcwd()
@@ -28,6 +27,7 @@ def move_torrents():
     
     serie_title     = []
     serie_file_name = []
+    
 
     movie_title     = []
     movie_file_name = []
@@ -68,18 +68,8 @@ def move_torrents():
     movies_list = list(zip(movie_title, movie_file_name))
 
     for files in movies_list:
-        #print(movies_folder + "/" + files[1])
         os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
+
     
-
-
-
-    # print(anime_list)
-    # print(":::::::::::")
-    # print(series_list)
-    # print(":::::::::::")
-    # print(docs_list)
-    # print(":::::::::::")
-    # print(movies_list)
-    # print(":::::::::::")   
+      
 move_torrents()
