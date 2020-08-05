@@ -27,6 +27,8 @@ def move_torrents():
     
     serie_title     = []
     serie_file_name = []
+    serie_season    = []
+    serie_episode   = []
     
 
     movie_title     = []
@@ -52,6 +54,8 @@ def move_torrents():
         if torrents[1] == "Series":
             parsed_torrents = PTN.parse(torrents[0])
             serie_title.append(parsed_torrents['title'])
+            serie_season.append(parsed_torrents['season'])
+            serie_episode.append(parsed_torrents['episode'])
             serie_file_name.append(torrents[0])
 
         
@@ -63,13 +67,19 @@ def move_torrents():
 
 
     anime_list  = list(zip(anime_title, anime_file_name))
-    series_list = list(zip(serie_title, serie_file_name))
+    series_list = list(zip(serie_title,serie_season, serie_episode, serie_file_name))
     docs_list   = list(zip(doc_title, doc_file_name))
     movies_list = list(zip(movie_title, movie_file_name))
 
-    for files in movies_list:
-        os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
-
+    print(series_list)
     
-      
+    for files in movies_list:
+      os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
+
+    for files in series_list:
+        os.mkdir(series_folder + "/" + files[0])
+        os.mkdir(series_folder + "/" + "season " + files[1])
+        
+        #os.rename(downloads_folder + "/" + files[3])
+
 move_torrents()
