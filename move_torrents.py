@@ -71,15 +71,5 @@ def move_torrents():
         #print(movies_folder + "/" + files[1])
         os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
     
-
-
-
-    # print(anime_list)
-    # print(":::::::::::")
-    # print(series_list)
-    # print(":::::::::::")
-    # print(docs_list)
-    # print(":::::::::::")
-    # print(movies_list)
-    # print(":::::::::::")   
+  
 move_torrents()
