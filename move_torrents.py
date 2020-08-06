@@ -79,6 +79,8 @@ def move_torrents():
     for files in series_list:
         os.mkdir(series_folder + "/" + files[0])
         os.mkdir(series_folder + "/" + "season " + files[1])
+
+
         
         #os.rename(downloads_folder + "/" + files[3])
 
