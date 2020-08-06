@@ -71,17 +71,14 @@ def move_torrents():
     docs_list   = list(zip(doc_title, doc_file_name))
     movies_list = list(zip(movie_title, movie_file_name))
 
-    print(series_list)
     
     for files in movies_list:
       os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
 
     for files in series_list:
         os.mkdir(series_folder + "/" + files[0])
-        os.mkdir(series_folder + "/" + "season " + files[1])
-
-
-        
-        #os.rename(downloads_folder + "/" + files[3])
+        os.mkdir(series_folder + "/" + files[0] + "/" "season " + str(files[1]))
+        os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+    
 
 move_torrents()
