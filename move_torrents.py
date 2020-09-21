@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import qbittorrentapi
 import PTN
 from qbt_config import qbt_client, downloads_folder, movies_folder, series_folder, anime_folder, doc_folder
@@ -22,16 +24,16 @@ def move_torrents():
     t_list = list(zip(t_names,t_category,t_amount_left,t_hash))
     #print(t_list)
 
-##  Those lists contain the file name and the title of the show/movie/anime/doc ## 
+##  Those lists contain the file name and the title of the show/movie/anime/doc ##
     anime_title     = []
     anime_file_name = []
     anime_hash      = []
-    
+
     serie_title     = []
     serie_file_name = []
     serie_season    = []
     serie_episode   = []
-    serie_hash      = []    
+    serie_hash      = []
 
     movie_title     = []
     movie_file_name = []
@@ -49,7 +51,7 @@ def move_torrents():
             anime_title.append(parsed_torrents['title'])
             anime_file_name.append(torrents[0])
             anime_hash.append(torrents[3])
-    
+
         if torrents[1] == "Movies":
             parsed_torrents = PTN.parse(torrents[0])
             movie_title.append(parsed_torrents['title'])
@@ -63,29 +65,29 @@ def move_torrents():
             serie_episode.append(parsed_torrents['episode'])
             serie_file_name.append(torrents[0])
             serie_hash.append(torrents[3])
-        
+
         if torrents[1] == "Documentary":
             parsed_torrents = PTN.parse(torrents[0])
             doc_title.append(parsed_torrents['title'])
             doc_file_name.append(torrents[0])
             doc_hash.append(torrents[3])
 
-    
+
 
     anime_list  = list(zip(anime_title, anime_file_name,anime_hash))
     series_list = list(zip(serie_title,serie_season, serie_episode, serie_file_name,serie_hash))
     docs_list   = list(zip(doc_title, doc_file_name,doc_hash))
     movies_list = list(zip(movie_title, movie_file_name,movie_hash))
 
-    print(anime_list)
-    print("............")
-    print(series_list)
+    #print(anime_list)
+    #print("............")
+    #print(series_list)
     # print("............")
     # print(docs_list)
-    print("............")
-    print(movies_list)
+    #print("............")
+    #print(movies_list)
 
- 
+
 
     for files in movies_list:
 
@@ -95,11 +97,10 @@ def move_torrents():
 
             qbt_client.torrents_delete(torrent_hashes=str(files[2]), delete_files= False)
             print("torrent" + files[0] + "was deleted")
-        
+
         except OSError as err:
             print(err)
-      
-      
+
 
 
     for files in series_list:
@@ -108,15 +109,21 @@ def move_torrents():
             os.mkdir(series_folder + "/" + files[0])
             os.mkdir(series_folder + "/" + files[0] + "/" "season " + str(files[1]))
             os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
-            print("Serie" + files[0] + " was moved to " + movies_folder)
+            print("Serie" + files[0] + " was moved to " + series_folder)
 
             qbt_client.torrents_delete(torrent_hashes=str(files[4]), delete_files= False)
             print("torrent" + files[0] + "was deleted")
-            
+
          except OSError as err:
             print(err)
 
-    
+            os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+            print("Serie" + files[0] + " was moved to " + series_folder)
+
+            qbt_client.torrents_delete(torrent_hashes=str(files[4]), delete_files= False)
+            print("torrent" + files[0] + "was deleted")
+
+
     #for files in anime_list:
 
     #   try:
@@ -125,7 +132,7 @@ def move_torrents():
 
     #        qbt_client.torrents_delete(torrent_hashes=str(files[2]), delete_files= False)
     #        print("torrent" + files[0] + "was deleted")
-        
+
     #    except OSError as err:
     #        print(err)
 
