@@ -1,3 +1,5 @@
 qbt_config.py
 testapi.py
 .vscode/settings.json
+torrent_mover.log
+docker-compose.yaml

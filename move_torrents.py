@@ -4,6 +4,13 @@ import qbittorrentapi
 import PTN
 from qbt_config import qbt_client, downloads_folder, movies_folder, series_folder, anime_folder, doc_folder
 import os
+import schedule
+from time import sleep
+import logging
+import shutil
+
+logging.basicConfig(filename='torrent_mover.log', format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S' )
+#logging.info("script started")
 
 def move_torrents():
     all_torrents = qbt_client.torrents_info()
@@ -24,7 +31,7 @@ def move_torrents():
     t_list = list(zip(t_names,t_category,t_amount_left,t_hash))
     #print(t_list)
 
-##  Those lists contain the file name and the title of the show/movie/anime/doc ##
+    #Those lists contain the file name and the title of the show/movie/anime/doc ##
     anime_title     = []
     anime_file_name = []
     anime_hash      = []
@@ -72,8 +79,7 @@ def move_torrents():
             doc_file_name.append(torrents[0])
             doc_hash.append(torrents[3])
 
-
-
+   
     anime_list  = list(zip(anime_title, anime_file_name,anime_hash))
     series_list = list(zip(serie_title,serie_season, serie_episode, serie_file_name,serie_hash))
     docs_list   = list(zip(doc_title, doc_file_name,doc_hash))
@@ -92,15 +98,18 @@ def move_torrents():
     for files in movies_list:
 
         try:
-            os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
+            #os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
+            shutil.move(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
             print("Movie" + files[0] + " was moved to " + movies_folder)
+            logging.info("Movie" + files[0] + " was moved to " + movies_folder)
 
             qbt_client.torrents_delete(torrent_hashes=str(files[2]), delete_files= False)
             print("torrent" + files[0] + "was deleted")
+            logging.info("torrent" + files[0] + "was deleted")
 
         except OSError as err:
             print(err)
-
+            logging.info(err)
 
 
     for files in series_list:
@@ -108,32 +117,29 @@ def move_torrents():
          try:
             os.mkdir(series_folder + "/" + files[0])
             os.mkdir(series_folder + "/" + files[0] + "/" "season " + str(files[1]))
-            os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+            #os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+            shutil.move(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
             print("Serie" + files[0] + " was moved to " + series_folder)
+            logging.info("Serie" + files[0] + " was moved to " + series_folder)
 
             qbt_client.torrents_delete(torrent_hashes=str(files[4]), delete_files= False)
-            print("torrent" + files[0] + "was deleted")
+            print("torrent " + files[0] + " was deleted")
+            logging.info("torrent " + files[0] + " was deleted")
 
          except OSError as err:
             print(err)
+            logging.info(err)
 
-            os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+            #os.rename(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
+            shutil.move(downloads_folder + "/" + files[3], series_folder + "/" + files[0] + "/" "season " + str(files[1]) + "/" + files[3])
             print("Serie" + files[0] + " was moved to " + series_folder)
+            logging.info("Serie" + files[0] + " was moved to " + series_folder)
 
             qbt_client.torrents_delete(torrent_hashes=str(files[4]), delete_files= False)
-            print("torrent" + files[0] + "was deleted")
+            print("torrent " + files[0] + " was deleted")
+            logging.info("torrent " + files[0] + " was deleted")
+            
 
-
-    #for files in anime_list:
-
-    #   try:
-    #        os.rename(downloads_folder + "/" + files[1], movies_folder + "/" + files[0] )
-    #        print("Movie" + files[0] + " was moved to " + movies_folder)
-
-    #        qbt_client.torrents_delete(torrent_hashes=str(files[2]), delete_files= False)
-    #        print("torrent" + files[0] + "was deleted")
-
-    #    except OSError as err:
-    #        print(err)
-
-move_torrents()
+while True:
+    move_torrents()
+    sleep(60)
