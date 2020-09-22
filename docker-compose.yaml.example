@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+   auto-move:
+     image: auto-mover:latest
+     volumes:
+       - /path/to/Downloads/folder:/Downloads
+       - /path/to/plex media/folder:/plex-media
+       
+
+     restart: always
